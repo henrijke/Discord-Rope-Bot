@@ -1,0 +1,170 @@
+[
+	{
+		"name": "crickets",
+		"emoji": "🦗",
+		"soundfile": "crickets.wav",
+    "set": [ "general" ]
+	},
+	{
+		"name": "fart",
+		"emoji": "💨",
+		"soundfile": "fart.wav",
+    "set": [ "general" ]
+	},
+	{
+		"name": "running",
+		"emoji": "🏃‍♀️",
+		"soundfile": "running.wav",
+    "set": [ "general" ]
+	},
+	{
+		"name": "spell",
+		"emoji": "🪄",
+		"soundfile": "spell.wav",
+    "set": [ "general" ]
+	},
+	{
+		"name": "drumriff",
+		"emoji": "🥁",
+		"soundfile": "drumriff.wav",
+    "set": [ "general" ]
+	},
+	{
+		"name": "trumpet",
+		"emoji": "🎺",
+		"soundfile": "sadtrumpet.wav",
+    "set": [ "general" ]
+	},
+	{
+		"name": "bonk",
+		"emoji": "🏏",
+		"soundfile": "bonk.wav",
+    "set": [ "general" ]
+	},
+	{
+		"name": "slap",
+		"emoji": "🖐️",
+		"soundfile": "slap.wav",
+    "set": [ "general" ]
+	},
+	{
+		"name": "monni",
+		"emoji": "😼",
+		"soundfile": "monni.wav",
+    "set": [ "memes" ]
+	},
+	{
+		"name": "petkuhuiputusta",
+		"emoji": "😾",
+		"soundfile": "petkuhuiputusta.wav",
+    "set": [ "memes" ]
+	},
+	{
+		"name": "sad violin",
+		"emoji": "🎻",
+		"soundfile": "sadviolin.wav",
+    "set": [ "memes" ]
+	},
+	{
+		"name": "few moments",
+		"emoji": "🕐",
+		"soundfile": "moments.wav",
+    "set": [ "dnd" ]
+	},
+	{
+		"name": "suspense 1",
+		"emoji": "1️⃣",
+		"soundfile": "suspense.wav",
+    "set": [ "cthulhu" ]
+	},
+	{
+		"name": "suspense 2",
+		"emoji": "2️⃣",
+		"soundfile": "suspense2.wav",
+    "set": [ "cthulhu" ]
+	},
+	{
+		"name": "suspense 3",
+		"emoji": "3️⃣",
+		"soundfile": "suspense3.wav",
+    "set": [ "cthulhu" ]
+	},
+	{
+		"name": "drama",
+		"emoji": "4️⃣",
+		"soundfile": "drama.wav",
+    "set": [ "cthulhu" ]
+	},
+	{
+		"name": "sad horn",
+		"emoji": "🎷",
+		"soundfile": "wawawowaa.wav",
+    "set": [ "dnd" ]
+	},
+	{
+		"name": "angels",
+		"emoji": "🙏",
+		"soundfile": "angels.wav",
+    "set": [ "memes" ]
+	},
+	{
+		"name": "duck",
+		"emoji": "🐤",
+		"soundfile": "duck.wav",
+    "set": [ "general" ]
+	},
+	{
+		"name": "falling",
+		"emoji": "🍃",
+		"soundfile": "falling.wav",
+    "set": [ "general" ]
+	},
+	{
+		"name": "D&D intro",
+		"emoji": "🆕",
+		"soundfile": "intro.wav",
+    "set": [ "dnd" ]
+	},
+	{
+		"name": "sad music",
+		"emoji": "😭",
+		"soundfile": "coke.wav",
+    "set": [ "dnd" ]
+	},
+	{
+		"name": "xfiles",
+		"emoji": "👽",
+		"soundfile": "xfiles.wav",
+    "set": [ "memes" ]
+	},
+	{
+		"name": "roundabout",
+		"emoji": "🎸",
+		"soundfile": "roundabout.wav",
+    "set": [ "memes" ]
+	},
+	{
+		"name": "goofy",
+		"emoji": "🐶",
+		"soundfile": "goofy.wav",
+    "set": [ "general" ]
+	},
+	{
+		"name": "earthbound",
+		"emoji": "🧢",
+		"soundfile": "earthbound.wav",
+    "set": [ "memes" ]
+	},
+	{
+		"name": "philadelphia",
+		"emoji": "🏬",
+		"soundfile": "philadelphia.wav",
+    "set": [ "memes" ]
+	},
+	{
+		"name": "mystery",
+		"emoji": "👻",
+		"soundfile": "mystery.wav",
+    "set": [ "memes" ]
+	}
+]

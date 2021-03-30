@@ -14,13 +14,13 @@ module.exports = {
 	name: 'message',
 	async execute(message, client) {
 		// If the message is in rpg guild and has a image in it
-		if (message.attachments.first() && message.channel.id === channels.general.id && !message.author.bot) {
+		if (message.attachments.first() && message.channel.id === channels[message.channel.guild.id]?.general.id && !message.author.bot) {
 			const keys = message.attachments.map(element => element.attachment);
 			if (imgTypeList.find(element => keys[0].slice(-4).toLowerCase().includes(element))) {
 				message.react('💾');
 				const collector = message.createReactionCollector((reaction, user) => reaction.emoji.name === '💾' && !user.bot, { time: 300000 });
 				collector.on('collect', async (reaction, user) => {
-					client.channels.cache.get(channels.img.id).send(new Discord.MessageAttachment(keys[0]));
+					client.channels.cache.get(channels[message.channel.guild.id].img.id).send(new Discord.MessageAttachment(keys[0]));
 					message.react('😘');
 					collector.stop();
 				});

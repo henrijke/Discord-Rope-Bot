@@ -1,19 +1,5 @@
-// const mongoose = require('mongoose');
-// const userSchema = require('./userSchema.js');
-// const User = mongoose.model('user', userSchema, 'user');
 const { mongoDbToken } = require('../config.json');
 const { MongoClient } = require("mongodb");
-
-// class Initiative {
-//   userId;
-//   name;
-//   initiative;
-//   constructor(userId, name, initiative) {
-//     this.userId = userId;
-//     this.name = name;
-//     this.initiative = initiative
-//   }
-// }
 
 // Replace the uri string with your MongoDB deployment's connection string.
 const uri = mongoDbToken.token;

@@ -9,6 +9,7 @@ const ADV = 'adv';
 const MIN = 'min';
 const MAX = 'max';
 const HELP = 'help';
+const BULLSHIT = 'bullshit';
 
 const diceRegEx = /(\d{1,3}d\d{1,3})+|(d\d{1,3})+/;
 const allowedTerms = /^(\d{1,3}d\d{1,3}|d\d{1,3}|[\+\/\(\)\*\-]|[0-9]|dis|adv|(min\d{1,})|(max\d{1,}))+/;
@@ -125,6 +126,31 @@ const argCommands = [
       });
       message.channel.send({ embed: embedBase });
     }
+  },
+  {
+    name: 'Bullshit',
+    explanation: `rolls 200 d100 and counts the average to check for weird stuff`,
+    example: '!r bullshit',
+    command(arg) {
+      return arg.includes(BULLSHIT);
+    },
+    execute(message, arg) {
+      const embedBase = {
+        color: 0x7A3E1C,
+        title: `Bullshit Detector`,
+        description: `So instead of just handling it like an adult you think the bot is broken hmm?`,
+        fields: [
+          {
+            name: `I just rolled 500 d20 and calculated the average`,
+            value: `The result is ${Math.floor(diceFunctions.rollXAmount(500, 20).reduce((a, b) => a + b, 0) / 500)} so how about just suck it up champ`,
+            }
+        ],
+        footer: {
+          text: '💩 Next time roll better',
+        },
+      };
+      message.channel.send({ embed: embedBase });
+    }
   }
 ];
 
@@ -139,8 +165,13 @@ module.exports = {
           // Add the argument list together
           const arguments = args.join('').toLowerCase();
 
+          // Check for help or bullshit argument and in this case override the message
           if (arguments.includes(HELP)) {
             argCommands.find(element => element.name.toLowerCase() === HELP).execute(message, arguments);
+            return;
+          } else if (arguments.includes(BULLSHIT)) {
+            argCommands.find(element => element.name.toLowerCase() === BULLSHIT).execute(message, arguments);
+            message.react('🧻');
             return;
           }
           // Check that the argument list is valid

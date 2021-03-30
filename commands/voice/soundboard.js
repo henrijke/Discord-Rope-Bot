@@ -1,16 +1,27 @@
-// const { OpusEncoder } = require('@discordjs/opus');
-// const pathToFfmpeg = require('ffmpeg-static');
-//
-// // Create the encoder.
-// // Specify 48kHz sampling rate and 2 channel size.
-// const encoder = new OpusEncoder(48000, 2);
-//
-// // Encode and decode.
-// const encoded = encoder.encode(buffer);
-// const decoded = encoder.decode(encoded);
-const boing = '../../assets/voice/boing.mp3';
-const swish = '../../assets/voice/swish.mp3';
+const { OpusEncoder } = require('@discordjs/opus');
+const pathToFfmpeg = require('ffmpeg-static');
+const fs = require('fs');
+const path = require('path');
 
+const sounds = require ('../../assets/jsons/sounds.json');
+
+const fileLocation = '../../assets/voice/';
+
+const argCommands = [
+  {
+    name: 'Initiative',
+    explanation: 'Sets or updates your initiative',
+    example: '!i 20',
+    command(arg) {
+      return !isNaN(arg);
+    },
+    async execute(message, arg) {
+      const initiative = new Initiative(message.author.id, message.guild.members.cache.get(message.author.id).nickname ? message.guild.members.cache.get(message.author.id).nickname: message.author.username, parseInt(arg));
+      const result = await databaseFunctions.createOrUpdate( initiative );
+      message.react( result.result.ok ? '👍': '👎' );
+    }
+  },
+]
 module.exports = {
 	name: 'soundboard',
 	description: 'Lets find some spells',
@@ -19,49 +30,47 @@ module.exports = {
 	description: 'Start soundboard',
 	async execute(message, args) {
     try {
-      // console.log(message);
+			const { voice } = message.member;
+			if (!voice.channelID) {
+				message.reply('Join a voice channel first!');
+				return;
+			}
 
-      if (message.member.voice.channel) {
-  		const connection = await message.member.voice.channel.join();
-  	}
+			if (args.length === 0) {
+				const array = [];
+				sounds.forEach(elem => {
+						elem.set.forEach(e => {
+							if (!array.find(ar => ar.toLowerCase() === e.toLowerCase())) {
+								array.push(e);
+							}
+						});
+				});
+				message.channel.send(`State what soundboard you want to use. I have these soundboards right now:\n**${array.join('**,\n**')}**`);
+				return;
+			}
+			const board = sounds.filter(element => element.set.find(elem => elem === args[0].toLowerCase()));
+			const connection = await voice.channel.join();
 
-      message.react('👍').then(() => message.react('👎'));
+			board.forEach( async (element) => {
+				await message.react(element.emoji);
+			});
 
-      const filter = (reaction, user) => {
-      	return ['👍', '👎'].includes(reaction.emoji.name) && user.id === message.author.id;
-      };
+			const filter = (reaction, user) => {
+				return board.map(res => res.emoji).includes(reaction.emoji.name) && user.id === message.author.id;
+			};
+				const collector = message.createReactionCollector(filter, { time: 150000 });
 
-      // async function play(voiceChannel) {
-      // 	const connection = await voiceChannel.join();
-      // 	connection.play('audio.mp3');
-      // }
+				collector.on('collect', (reaction, user) => {
+					const sound = board.find( res => res.emoji === reaction.emoji.name);
+					if (sound) {
+						connection.play(path.join( __dirname, fileLocation, sound.soundfile ));
+					}
+				});
 
-      message.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] })
-      	.then(collected => {
-      		const reaction = collected.first();
-          // Create a dispatcher
+				collector.on('end', collected => {
+					console.log(`Done`);
+				});
 
-      		if (reaction.emoji.name === '👍') {
-      			const dispatcher = connection.play('/assets/voice/boing.mp3');
-      		} else {
-      			const dispatcher = connection.play('/assets/voice/boing.mp3');
-      		}
-
-          dispatcher.on('start', () => {
-            console.log('audio.mp3 is now playing!');
-          });
-
-          dispatcher.on('finish', () => {
-            console.log('audio.mp3 has finished playing!');
-          });
-
-          // Always remember to handle errors appropriately!
-          dispatcher.on('error', console.error);
-          dispatcher.destroy();
-      	})
-      	.catch(collected => {
-      		message.reply('hmm');
-      	});
     } catch (error) {
       console.log(error);
       message.react('🙈');

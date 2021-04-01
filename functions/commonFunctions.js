@@ -29,8 +29,9 @@ const replaceString = (originalString, oldString, newString) => {
   return originalString.replace(oldString, newString);
 }
 
-const embedLength = (string) => {
-  return string.length > 1024 ? string.slice(0, 1021) + '...' : string;
+const embedLength = (string, number) => {
+  const num = number ? number : 1024
+  return string.length > num ? string.slice(0, num-4) + '...' : string;
 }
 
 module.exports = {

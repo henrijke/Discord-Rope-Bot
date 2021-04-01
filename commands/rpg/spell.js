@@ -107,7 +107,7 @@ const fillSpellEmbed = (json) => {
 			const desc = json.desc.join(' ');
 				embedBase.fields.push({
 				name: 'Description',
-				value: `${ commonFunctions.embedLength(desc) }`,
+				value: `${ commonFunctions.embedLength(desc, null) }`,
 			});
 		}
 		if (json.higher_level) {

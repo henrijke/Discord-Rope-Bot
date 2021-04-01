@@ -50,7 +50,7 @@ const argCommands = {
       const diceNumbers = exec.split(ADV);
       const diceSum = diceFunctions.rollAdvantage(parseInt(diceNumbers[1]));
       const replacedString = commonFunctions.replaceString(arg, exec, diceSum.higher);
-      return new DiceResult(diceSum.higher, [diceSum.higher, diceSum.lower], replacedString, ADV);
+      return new DiceResult(diceSum.higher, [diceSum.higher, diceSum.lower], replacedString, exec);
     }
   },
   dis: {
@@ -65,7 +65,7 @@ const argCommands = {
       const diceNumbers = exec.split(DIS);
       const diceSum = diceFunctions.rollAdvantage(parseInt(diceNumbers[1]));
       const replacedString = commonFunctions.replaceString(arg, exec, diceSum.lower);
-      return new DiceResult(diceSum.lower, [diceSum.lower, diceSum.higher], replacedString, DIS);
+      return new DiceResult(diceSum.lower, [diceSum.lower, diceSum.higher], replacedString, exec);
     }
   },
   roll: {
@@ -171,7 +171,7 @@ const argCommands = {
         fields: [
           {
             name: `I just rolled 500 d20 and calculated the average`,
-            value: `The result is ${Math.floor(diceFunctions.rollXAmount(500, 20).reduce((a, b) => a + b, 0) / 500)} so how about just suck it up champ`,
+            value: `The result is ${(diceFunctions.rollXAmount(500, 20).reduce((a, b) => a + b, 0) / 500).toFixed(2)} so how about just suck it up champ`,
             }
         ],
         footer: {
@@ -189,7 +189,7 @@ module.exports = {
   usage: '<number of dice> D <dice sizes> <modifiers> <extra stuff>',
   guildOnly: true,
   aliases: ['r', 'dice', 'heitä'],
-	execute(message, args) {
+	async execute(message, args) {
     try {
           // Add the argument list together
           const arguments = args.join('').toLowerCase();
@@ -248,7 +248,7 @@ module.exports = {
             }
             // error handling, maybe clean this up later
             catchIndex++;
-            if(catchIndex > 25) throw `error in ${stringTest}`;
+            if(catchIndex > 10) throw `error in ${stringTest}`;
           }
 
           let calculations;
@@ -262,49 +262,67 @@ module.exports = {
           // just to make sure everything is as should be
           const calc = calculations && !isNaN(calculations) ? calculations : '🎲Virhe'
           // Create base embed for the return message
+          let stringBuild = arguments;
+          endArray.forEach(res => {
+            stringBuild = commonFunctions.embedLength(commonFunctions.replaceString(stringBuild, res.originalDice, `${res.originalDice}[${res.diceResults.join(', ')}]`), 950);
+          });
+
           let embedBase = {
       			color: 0x16D346,
-      			title: `${calc}`,
+      			title: calc,
       			author: {
       				name: `${message.guild.members.cache.get(message.author.id).nickname ? message.guild.members.cache.get(message.author.id).nickname: message.author.username}`,
       				icon_url: `${message.author.displayAvatarURL({ format: 'jpg' })}`,
       			},
-      			description: `\`${arguments} = ${calculations}\``,
+      			description: `\`${stringBuild} = ${calculations}\``,
       			fields: [
       			]
       		};
-          // Loop through the results array and update embed for each
-          endArray.forEach(res => {
-            embedBase.fields.push({
-      					name: `${res.originalDice} = ${res.amount}`,
-      					value: `${res.diceResults.join(' , ')}`,
-      					inline: true,
-      				});
-          });
-          // let embedBase = {
-      		// 	color: 0xffff00,
-      		// 	title: `${calc}`,
-      		// 	author: {
-      		// 		name: `${message.guild.members.cache.get(message.author.id).nickname}`,
-      		// 		icon_url: `${message.author.displayAvatarURL({ format: 'jpg' })}`,
-      		// 	},
-      		// 	description: `${endArray.map(res => {
-          //     return `${res.originalDice} ( ${res.diceResults.join(' + ')} = ${res.amount} ) `;
-          //   }).join(' ')}`,
-          //   fields: [
-      		// 	]
-      		// };
-          // Loop through the results array and update embed for each
-          // endArray.forEach(res => {
-          //   embedBase.fields.push({
-      		// 			name: `${res.originalDice} = ${res.amount}`,
-      		// 			value: `${res.diceResults.join(' , ')}`,
-      		// 			inline: true,
-      		// 		});
-          // });
+
+          if (JSON.stringify(embedBase).length >= 6000) {
+            throw 'Embed too long';
+          }
           // everything should be ok so lets mark the request done and reply
           message.react('🆗');
-          message.channel.send({ embed: embedBase });
+          // send the results and add info listener if the user wants more info of the roll
+          message.channel.send({ embed: embedBase }).then( async embedMessage => {
+            await embedMessage.react('ℹ️');
+            const filter = (reaction, user) => {
+              return ['ℹ️'].includes(reaction.emoji.name) && !message.author.bot;
+            };
+            const collector = embedMessage.createReactionCollector(filter, { time: 30000 });
+
+            collector.on('collect', (reaction, user) => {
+              const extendedEmbed = {
+                color: 0x16D346,
+                title: calc,
+                author: {
+                  name: `${message.guild.members.cache.get(message.author.id).nickname ? message.guild.members.cache.get(message.author.id).nickname: message.author.username}`,
+                  icon_url: `${message.author.displayAvatarURL({ format: 'jpg' })}`,
+                },
+                description: `\`${stringBuild} = ${calculations}\``,
+                fields: [
+                ]
+              };
+              // Loop through the results array and update embed for each
+              endArray.forEach(res => {
+                const value = `[${res.diceResults.join(', ')}] = **${res.amount}**`;
+                extendedEmbed.fields.push({
+          					name: commonFunctions.embedLength(res.originalDice, 950),
+          					value: commonFunctions.embedLength(value, 950),
+          				});
+              });
+              if (JSON.stringify(extendedEmbed).length >= 6000) {
+                collector.stop();
+                return;
+              }
+              embedMessage.edit({embed: extendedEmbed});
+              collector.stop();
+            });
+
+            collector.on('end', collected => {
+            });
+          });
     } catch (error) {
       // There's an error so lets mark it
       console.log(error);

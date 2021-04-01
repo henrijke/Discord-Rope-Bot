@@ -7,21 +7,21 @@ const sounds = require ('../../assets/jsons/sounds.json');
 
 const fileLocation = '../../assets/voice/';
 
-const argCommands = [
-  {
-    name: 'Initiative',
-    explanation: 'Sets or updates your initiative',
-    example: '!i 20',
-    command(arg) {
-      return !isNaN(arg);
-    },
-    async execute(message, arg) {
-      const initiative = new Initiative(message.author.id, message.guild.members.cache.get(message.author.id).nickname ? message.guild.members.cache.get(message.author.id).nickname: message.author.username, parseInt(arg));
-      const result = await databaseFunctions.createOrUpdate( initiative );
-      message.react( result.result.ok ? '👍': '👎' );
-    }
-  },
-]
+// const argCommands = [
+//   {
+//     name: 'Initiative',
+//     explanation: 'Sets or updates your initiative',
+//     example: '!i 20',
+//     command(arg) {
+//       return !isNaN(arg);
+//     },
+//     async execute(message, arg) {
+//       const initiative = new Initiative(message.author.id, message.guild.members.cache.get(message.author.id).nickname ? message.guild.members.cache.get(message.author.id).nickname: message.author.username, parseInt(arg));
+//       const result = await databaseFunctions.createOrUpdate( initiative );
+//       message.react( result.result.ok ? '👍': '👎' );
+//     }
+//   },
+// ];
 module.exports = {
 	name: 'soundboard',
 	description: 'Lets find some spells',

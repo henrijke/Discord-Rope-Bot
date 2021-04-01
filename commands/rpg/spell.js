@@ -1,5 +1,6 @@
 const fetch = require('node-fetch');
 const fetchFunctions = require('../../functions/fetchFunctions');
+const commonFunctions = require('../../functions/commonFunctions');
 const dndAddress = 'https://www.dnd5eapi.co/api/';
 
 // https://cdn.discordapp.com/attachments/583681122664448052/822209702204669952/kuva.jpg
@@ -106,7 +107,7 @@ const fillSpellEmbed = (json) => {
 			const desc = json.desc.join(' ');
 				embedBase.fields.push({
 				name: 'Description',
-				value: `${desc.length > 1024 ? desc.slice(0, 1021) + '...' : desc }`,
+				value: `${ commonFunctions.embedLength(desc) }`,
 			});
 		}
 		if (json.higher_level) {

@@ -17,8 +17,8 @@ const checkDiceArguments = (list) => {
   })
 }
 
-const rollAdvantage = () => {
-  const result = rollXAmount(2, 20);
+const rollAdvantage = (amount) => {
+  const result = rollXAmount(2, amount);
   return {
     higher: result[0] > result[1] ? result[0] : result[1],
     lower: result[0] < result[1] ? result[0] : result[1]

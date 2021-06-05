@@ -31,6 +31,10 @@ module.exports = {
 	async execute(message, args) {
     try {
 			const { voice } = message.member;
+			// if (message.author.id !== '569797670785253386' && message.author.id !== '186532041867788289') {
+			// 	message.reply('Tänään vaa henri ja kerttu saa käyttää tätä :-)');
+			// 	return;
+			// }
 			if (!voice.channelID) {
 				message.reply('Join a voice channel first!');
 				return;
@@ -45,7 +49,7 @@ module.exports = {
 							}
 						});
 				});
-				message.channel.send(`State what soundboard you want to use. I have these soundboards right now:\n**${array.join('**,\n**')}**`);
+				message.channel.send(`State what soundboard you want to use. I have these soundboards available right now:\n**${array.join('**,\n**')}**`);
 				return;
 			}
 			const board = sounds.filter(element => element.set.find(elem => elem === args[0].toLowerCase()));
@@ -58,7 +62,7 @@ module.exports = {
 			const filter = (reaction, user) => {
 				return board.map(res => res.emoji).includes(reaction.emoji.name) && user.id === message.author.id;
 			};
-				const collector = message.createReactionCollector(filter, { time: 150000 });
+				const collector = message.createReactionCollector(filter, { time: 300000000 });
 
 				collector.on('collect', (reaction, user) => {
 					const sound = board.find( res => res.emoji === reaction.emoji.name);

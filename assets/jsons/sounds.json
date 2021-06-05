@@ -1,5 +1,65 @@
 [
 	{
+		"name": "rummut",
+		"emoji": "🪘",
+		"soundfile": "rumpujenparina.wav",
+		"set": [ "gaala" ]
+	},
+	{
+		"name": "taputukset",
+		"emoji": "👏",
+		"soundfile": "taputukset.wav",
+		"set": [ "gaala" ]
+	},
+	{
+		"name": "gasp",
+		"emoji": "😱",
+		"soundfile": "gasp.wav",
+		"set": [ "gaala" ]
+	},
+	{
+		"name": "titanic",
+		"emoji": "🛳️",
+		"soundfile": "titanic.wav",
+		"set": [ "gaala" ]
+	},
+	{
+		"name": "all star",
+		"emoji": "⭐",
+		"soundfile": "allstar.wav",
+		"set": [ "gaala" ]
+	},
+	{
+		"name": "winner",
+		"emoji": "🏆",
+		"soundfile": "winner.wav",
+		"set": [ "gaala" ]
+	},
+	{
+		"name": "backstreet",
+		"emoji": "👟",
+		"soundfile": "tell_me.wav",
+		"set": [ "gaala" ]
+	},
+	{
+		"name": "eclipse",
+		"emoji": "🌛",
+		"soundfile": "eclipse.wav",
+		"set": [ "gaala" ]
+	},
+	{
+		"name": "merkillistä",
+		"emoji": "😿",
+		"soundfile": "merkillista.wav",
+    "set": [ "memes" ]
+	},
+	{
+		"name": "mitä",
+		"emoji": "🙀",
+		"soundfile": "mitamita.wav",
+		"set": [ "memes" ]
+	},
+	{
 		"name": "crickets",
 		"emoji": "🦗",
 		"soundfile": "crickets.wav",

@@ -34,7 +34,17 @@ const embedLength = (string, number) => {
   return string.length > num ? string.slice(0, num-4) + '...' : string;
 }
 
+const doubleNumberTime = (number) => {
+  return number.toString().length > 1 ? number :  `${ '0' + number }`;
+}
+
+const convertTimezone = (date, timezone) => {
+    return new Date((typeof date === "string" ? new Date(date) : date).toLocaleString("en-US", {timeZone: timezone}));
+}
+
 module.exports = {
   replaceString,
   embedLength,
+  doubleNumberTime,
+  convertTimezone,
  };

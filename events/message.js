@@ -14,7 +14,7 @@ module.exports = {
 	name: 'message',
 	async execute(message, client) {
 		// If the message is in rpg guild and has a image in it
-		if (message.attachments.first() && message.channel.id === channels[message.channel.guild.id]?.general.id && !message.author.bot) {
+		if (message.attachments.first() && message.channel.id === channels[message.channel.guild.id].general.id && !message.author.bot) {
 			const keys = message.attachments.map(element => element.attachment);
 			if (imgTypeList.find(element => keys[0].slice(-4).toLowerCase().includes(element))) {
 				message.react('💾');
